@@ -1,19 +1,19 @@
-import React, { useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
-import { Modal, Pressable, Text, TouchableOpacity, View } from "react-native";
-import ExpenseForm from "./ExpenseForm";
+import React, { useState } from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
+import EmployeeForm from "./EmployeeForm";
 
-const ExpenseModal = () => {
+const EmployeeModal = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <>
+    <View className="flex flex-row mt-6 gap-x-2">
       <TouchableOpacity
         onPress={() => setModalVisible(true)}
-        className="bg-blue-200 px-3 py-2 pb-2.5 rounded-lg flex flex-row gap-1 items-center justify-center ml-2"
+        className="bg-emerald-300 px-3 py-2 pb-2.5 rounded-lg flex flex-row gap-1 items-center justify-center ml-2"
       >
         <AntDesign name="plus" size={15} color={"black"} />
-        <Text>Expense</Text>
+        <Text>Employee</Text>
       </TouchableOpacity>
 
       <Modal
@@ -24,10 +24,10 @@ const ExpenseModal = () => {
           setModalVisible(!modalVisible);
         }}
       >
-        <ExpenseForm setModalVisible={setModalVisible} />
+        <EmployeeForm setModalVisible={setModalVisible} />
       </Modal>
-    </>
+    </View>
   );
 };
 
-export default ExpenseModal;
+export default EmployeeModal;

@@ -10,6 +10,7 @@ const Input = ({
   multiline = false,
   numberOfLines = 1,
   keyboardType,
+  placeholder,
 }) => {
   return (
     <View className="py-3">
@@ -19,9 +20,11 @@ const Input = ({
           keyboardType={keyboardType}
           onChangeText={(value) => handleChange(name, value)}
           style={style}
-          className={`border-2 rounded-md px-2 text-lg ${
-            multiline ? "h-28" : "h-10"
+          className={`border-2 rounded-md px-2 flex text-base pb-2  ${
+            multiline ? "h-28" : "h-12"
           } ${error ? "border-red-500" : "border-gray-300 "}`}
+          placeholder={placeholder}
+          placeholderTextColor={"lightgray"}
           multiline={multiline}
           numberOfLines={numberOfLines}
         />

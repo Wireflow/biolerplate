@@ -8,17 +8,18 @@ import Button from "./Button";
 import Dropdown from "./Dropdown";
 import Input from "./Input";
 import { useExpense } from "../context/ExpenseContext";
+import { useEmployee } from "../context/EmployeeContext";
 
-const ExpenseForm = ({ setModalVisible }) => {
+const AdvanceForm = ({ setModalVisible }) => {
   const { revalidate } = useExpense();
+  const { employees } = useEmployee();
   const { handleChange, handleSubmit, reset, errors, loading, getValue } =
     useForm({
       defaultValues: {
-        title: "",
         amount: 0,
+        employeeId: "",
         reason: "",
-        paymentType: "",
-        type: "expense",
+        type: "advance",
         yearWeek: getCurrentWeek(),
         year: getCurrentYear(),
         date: Date.now(),
@@ -34,27 +35,26 @@ const ExpenseForm = ({ setModalVisible }) => {
         }
       },
       require: {
-        title: true,
         amount: true,
+        employeeId: true,
       },
     });
 
-  const options = [
-    { label: "Cash", value: "cash" },
-    { label: "Check", value: "check" },
-  ];
+  const options = employees.map((employee) => {
+    return { label: employee.name, value: employee._id };
+  });
 
   return (
     <AvoidKeyboard>
       <View className="bg-white flex-1 p-6 relative">
-        <Text className="mt-10 font-bold text-2xl">Add Expense</Text>
-        <View>
-          <Input
-            name="title"
-            label="Title"
-            placeholder="Budwiser delivery"
+        <Text className="mt-10 font-bold text-2xl">Add Advance</Text>
+        <View className="mt-4">
+          <Dropdown
+            options={options}
+            name="employeeId"
+            label={"Employee"}
             handleChange={handleChange}
-            error={errors?.title}
+            error={errors?.employeeId}
           />
           <Input
             name="amount"
@@ -63,12 +63,6 @@ const ExpenseForm = ({ setModalVisible }) => {
             keyboardType="numeric"
             error={errors?.amount}
           />
-          <Dropdown
-            options={options}
-            name="paymentType"
-            label={"Payment Type"}
-            handleChange={handleChange}
-          />
 
           <Input
             name="reason"
@@ -76,6 +70,7 @@ const ExpenseForm = ({ setModalVisible }) => {
             handleChange={handleChange}
             multiline
             numberOfLines={4}
+            error={errors?.reason}
           />
         </View>
         <View className="absolute bottom-10 w-full right-8 flex flex-row items-center justify-between gap-x-5">
@@ -95,4 +90,4 @@ const ExpenseForm = ({ setModalVisible }) => {
   );
 };
 
-export default ExpenseForm;
+export default AdvanceForm;

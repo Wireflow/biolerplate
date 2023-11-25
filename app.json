@@ -12,14 +12,16 @@
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
+    "packagerOpts": {
+      "hostType": "lan"
+    },
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.ecommerce.nader",
       "infoPlist": {
         "NSAppTransportSecurity": {
-          "NSAllowsArbitraryLoads": true,
-          "NSExceptionDomains": "localhost"
-        }
+          "NSAllowsArbitraryLoads": true
+        },
+        "supportsTablet": true,
+        "bundleIdentifier": "com.ecommerce.nader"
       }
     },
     "android": {
