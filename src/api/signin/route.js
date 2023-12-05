@@ -1,22 +1,24 @@
 import express from "express";
-import { AuthManager } from "../../managers/Auth.manager.js";
 import { validationResult } from "express-validator";
 import { signInValidator } from "../../entities/users/users.validator.js";
+import authServiceImpl from "../../frameworks/services/authService.js";
+import authServiceInterface from "../../application/services/authService.js";
+
 const router = express.Router();
+const authService = authServiceInterface(authServiceImpl());
 
 router.get("/", signInValidator, (req, res) => {
-  const auth = AuthManager();
   const errors = validationResult(req);
+
   if (errors.errors.length > 0) {
     console.log(errors);
     return res.send("Bad Info");
   }
 
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0aW1lIjoiVGh1IE5vdiAwMiAyMDIzIDIzOjUwOjUwIEdNVC0wNDAwIChFYXN0ZXJuIERheWxpZ2h0IFRpbWUpIiwiaWQiOjEyMzMyMSwiaWF0IjoxNjk4OTgzNDUwfQ.QoL02INhWoI0yeaAtSebllvqxQUp5Oisg4oBj_0rV_s";
-  const verified = auth.verifyToken(token);
+  // sign in user logic
+  const token = authService.generateToken(12123);
 
-  res.send({ ...verified });
+  res.send({ token });
 });
 
 export default router;

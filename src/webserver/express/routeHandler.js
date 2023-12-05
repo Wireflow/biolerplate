@@ -1,7 +1,7 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-import __dirname from "@utils/directoryUtils.js";
+import __dirname from "../../infrastructure/utils/directoryUtils.js";
 
 const router = express.Router();
 const apiDirectory = path.join(__dirname, "/api");

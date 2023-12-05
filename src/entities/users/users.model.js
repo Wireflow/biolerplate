@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
-import { schema } from "../_common/schema.models.js";
+import {
+  username,
+  password,
+} from "../../frameworks/databases/mongodb/models/_common/schema.models.js";
 const Schema = mongoose.Schema;
 
 // Create a schema for the User
@@ -7,11 +10,11 @@ const userSchema = new Schema({
   username: {
     unique: true,
     required: true,
-    ...schema.username,
+    ...username,
   },
   password: {
     required: true,
-    ...schema.password,
+    ...password,
   },
 });
 
