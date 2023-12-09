@@ -1,18 +1,14 @@
-import User from "../models/user";
-import authServiceImpl from "../../../services/authService.js";
-import authServiceInterface from "../../../../application/services/authService";
+import User from "../models/user.js";
 import omit from "../../../../infrastructure/utils/omitObject.js";
 
-const authService = authServiceInterface(authServiceImpl());
-
 const userRepositoryMongoDB = () => {
-  const add = (entity) => {
-    const created = User.create({
+  const add = async (entity) => {
+    const created = await User.create({
       email: entity.getEmail(),
       password: entity.getPassword(),
     });
 
-    return omit(created.toObject(), "password");
+    return omit(created._doc, "password");
   };
 
   const updateById = (id, entity) => {
@@ -25,12 +21,12 @@ const userRepositoryMongoDB = () => {
     return User.findOneAndUpdate(
       { _id: id },
       { $set: updatedUser },
-      { new: true }
-    );
+      { new: true, proe }
+    ).select("-password");
   };
 
   const findById = (id) => {
-    User.findById(id).select("-password");
+    return User.findById(id).select("-password");
   };
 
   const addAvatar = (id, entity) => {
@@ -38,7 +34,7 @@ const userRepositoryMongoDB = () => {
       { _id: id },
       { $set: { avatar: entity.getAvatar() } },
       { new: true }
-    );
+    ).select("-password");
   };
 
   const findByProperty = (params) => {
