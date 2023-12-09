@@ -1,9 +1,8 @@
 export default function userRepository(repository) {
   const updateById = (id, entity) => repository.updateById(id, entity);
-  const signIn = (params) => repository.signIn(params);
   const findById = (id) => repository.findById(id);
-  const add = (user) => repository.add(user);
-  const addAvatar = (base64, id) => repository.addAvatar(base64, id);
+  const add = (entity) => repository.add(entity);
+  const addAvatar = (id, entity) => repository.addAvatar(id, entity);
   const findByProperty = (params) => repository.findByProperty(params);
 
   return {
@@ -11,7 +10,6 @@ export default function userRepository(repository) {
     updateById,
     findById,
     addAvatar,
-    signIn,
     findByProperty,
   };
 }
