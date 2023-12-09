@@ -1,18 +1,15 @@
-import user from "../../../entities/user";
+import user from "../../../entities/user.js";
+import serverError from "../../../webserver/express/serverError.js";
 
-const updateById = (id, firstname, lastname, email, userRepository) => {
-  try {
-    if (!id) throw new Error("User id cannot be empty");
+const updateById = async (id, firstname, lastname, email, userRepository) => {
+  if (!id) throw serverError("User id cannot be empty", { status: 404 });
 
-    if (!firstname && !lastname && !email) throw new Error("No info to update");
+  if (!firstname && !lastname && !email)
+    throw serverError("Name and email are null", { status: 404 });
 
-    const updatedUser = user({ firstname, lastname, email });
+  const updatedUser = user({ firstname, lastname, email });
 
-    return userRepository.updateById(id, updatedUser);
-  } catch (error) {
-    console.error(error);
-    throw new Error("Internal server error updating user");
-  }
+  return await userRepository.updateById(id, updatedUser);
 };
 
 export default updateById;

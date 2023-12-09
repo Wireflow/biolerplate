@@ -1,20 +1,19 @@
-const signIn = (email, password, authService, userRepository) => {
-  try {
-    if (!email || !password) throw new Error("Email or password not provided");
+import serverError from "../../../webserver/express/serverError.js";
 
-    const user = userRepository.findByProperty({ email });
-
-    if (!user.length) throw new Error("User not found");
-
-    const passwordCheck = authService.compare(password, user[0]._doc.password);
-
-    if (!passwordCheck) throw new Error("Unauthorized User");
-
-    return authService.generateToken(user[0]._doc._id);
-  } catch (error) {
-    console.error(error);
-    throw new Error("Internal server error signing in user");
+const signIn = async (email, password, authService, userRepository) => {
+  if (!email || !password) {
+    throw serverError("Email or passwords cannot be empty", { status: 401 });
   }
+
+  const user = await userRepository.findByProperty({ email });
+
+  if (!user.length) throw serverError("User does not exist", { status: 401 });
+
+  const passwordCheck = authService.compare(password, user[0].password);
+
+  if (!passwordCheck) throw serverError("User unauthorized", { status: 401 });
+
+  return authService.generateToken(user[0]._doc._id);
 };
 
 export default signIn;

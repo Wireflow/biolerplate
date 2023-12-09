@@ -1,10 +1,5 @@
-const findByProperty = (params, userRepository) => {
-  try {
-    return userRepository.findByProperty(params);
-  } catch (error) {
-    console.error(error);
-    throw new Error("Internal server error finding user with properties");
-  }
+const findByProperty = async (params, userRepository) => {
+  return await userRepository.findByProperty(params);
 };
 
 export default findByProperty;

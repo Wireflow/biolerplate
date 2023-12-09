@@ -1,9 +1,9 @@
-const findById = (id, userRepository) => {
-  try {
-    return userRepository.findById(id);
-  } catch (error) {
-    throw new Error("Error finding user by id");
-  }
+import serverError from "../../../webserver/express/serverError.js";
+
+const findById = async (id, userRepository) => {
+  if (!id) throw serverError("User id cannot be empty", { status: 404 });
+
+  return await userRepository.findById(id);
 };
 
 export default findById;

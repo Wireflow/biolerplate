@@ -1,20 +1,16 @@
-import user from "../../../entities/user";
+import user from "../../../entities/user.js";
+import serverError from "../../../webserver/express/serverError.js";
 
-const addAvatar = (id, base64, userRepository) => {
-  try {
-    if (!id) throw new Error("User id cannot be empty");
+const addAvatar = async (id, base64, userRepository) => {
+  if (!id) throw serverError("User id cannot be empty", { status: 404 });
 
-    const isUserFound = userRepository.findById(id);
+  const isUserFound = await userRepository.findById(id);
 
-    if (!isUserFound) throw new Error("User not found");
+  if (!isUserFound) throw serverError("User does not exist", { status: 404 });
 
-    const userAvatar = user({ avatar: base64 });
+  const userAvatar = user({ avatar: base64 });
 
-    return userRepository.addAvatar(id, userAvatar);
-  } catch (error) {
-    console.error(error);
-    throw new Error("Internal server error adding user avatar");
-  }
+  return await userRepository.addAvatar(id, userAvatar);
 };
 
 export default addAvatar;
