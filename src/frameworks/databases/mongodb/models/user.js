@@ -21,6 +21,14 @@ const userSchema = new Schema(
   }
 );
 
+userSchema.set("toJSON", {
+  virtuals: true,
+  versionKey: false,
+  transform: function (doc, ret) {
+    delete ret._id;
+  },
+});
+
 // Create a model for the User
 const User = mongoose.model("User", userSchema);
 
